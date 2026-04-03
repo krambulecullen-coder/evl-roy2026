@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Everlife x Pipeline | Management Roster</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f0f2f8;color:#1a1a2e;line-height:1.6}
+nav{background:#1a1a2e;padding:14px 28px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,0.3)}
+.nav-logo{color:#fff;font-weight:700;font-size:15px;margin-right:auto}
+.btn-sm{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:#e2e8f0;padding:6px 14px;border-radius:6px;font-size:12px;cursor:pointer;font-family:inherit;transition:background 0.2s}
+.btn-sm:hover{background:rgba(255,255,255,0.2)}
+.hero{background:linear-gradient(135deg,#1a1a2e,#16213e 60%,#0f3460);padding:40px 28px 32px;text-align:center}
+.hero-badge{display:inline-block;background:rgba(255,255,255,0.1);color:#a0d8ef;border:1px solid rgba(255,255,255,0.15);padding:4px 14px;border-radius:20px;font-size:11px;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px}
+.hero h1{color:#fff;font-size:28px;font-weight:700;margin-bottom:6px}
+.hero p{color:#94a3b8;font-size:14px}
+.container{max-width:1200px;margin:0 auto;padding:28px 20px}
+
+/* SEARCH + FILTER */
+.controls{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;align-items:center}
+.search-wrap{position:relative;flex:1;min-width:200px}
+.search-input{width:100%;padding:10px 16px 10px 36px;border:1px solid #e2e8f0;border-radius:8px;font-size:13px;font-family:inherit;outline:none;background:#fff}
+.search-input:focus{border-color:#667eea;box-shadow:0 0 0 3px rgba(102,126,234,0.1)}
+.search-icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:#94a3b8;font-size:14px}
+.filter-btn{background:#fff;border:1px solid #e2e8f0;color:#4a5568;padding:8px 16px;border-radius:8px;font-size:12px;cursor:pointer;font-family:inherit;transition:all 0.2s;white-space:nowrap}
+.filter-btn:hover,.filter-btn.active{background:#667eea;color:#fff;border-color:#667eea}
+
+/* STATS */
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:20px}
+.stat-box{background:#fff;border-radius:10px;padding:14px;text-align:center;border:1px solid #e2e8f0}
+.stat-val{font-size:24px;font-weight:700;color:#667eea}
+.stat-lbl{font-size:11px;color:#718096;text-transform:uppercase;letter-spacing:0.5px;margin-top:2px}
+
+/* MANAGER COLUMNS */
+.managers-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.manager-card{background:#fff;border-radius:12px;border:1px solid #e2e8f0;box-shadow:0 1px 6px rgba(0,0,0,0.05);overflow:hidden;transition:box-shadow 0.2s}
+.manager-card:hover{box-shadow:0 4px 16px rgba(0,0,0,0.1)}
+.manager-card.hidden{display:none}
+.manager-header{padding:16px 18px;display:flex;align-items:center;gap:12px;border-bottom:1px solid #e2e8f0}
+.manager-avatar{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;color:#fff;flex-shrink:0}
+.manager-info h3{font-size:14px;font-weight:700;color:#1a1a2e}
+.manager-info p{font-size:12px;color:#718096}
+.recruiter-tag{font-size:11px;background:#faf5ff;color:#6b21a8;border:1px solid #d8b4fe;padding:2px 8px;border-radius:20px;font-weight:600;margin-top:2px;display:inline-block}
+
+/* TEAM LEADS */
+.tl-section{padding:12px 18px;border-bottom:1px solid #f0f2f8}
+.tl-section:last-child{border-bottom:none}
+.tl-header{display:flex;align-items:center;gap:8px;margin-bottom:8px;cursor:pointer}
+.tl-name{font-size:13px;font-weight:700;color:#2d3748}
+.tl-badge{font-size:10px;background:#ebf8ff;color:#2b6cb0;border:1px solid #bee3f8;padding:2px 7px;border-radius:20px;font-weight:600}
+.tl-toggle{margin-left:auto;color:#94a3b8;font-size:12px;transition:transform 0.2s}
+.tl-toggle.open{transform:rotate(180deg)}
+.agents-list{display:none;flex-wrap:wrap;gap:6px;margin-top:8px}
+.agents-list.open{display:flex}
+.agent-pill{background:#f7fafc;border:1px solid #e2e8f0;border-radius:20px;padding:3px 10px;font-size:12px;color:#2d3748;cursor:default;transition:background 0.2s}
+.agent-pill:hover{background:#ebf8ff;border-color:#bee3f8;color:#2b6cb0}
+.agent-pill.highlight{background:#fef3c7;border-color:#fbbf24;color:#92400e}
+
+/* DIRECT AGENTS (no TL) */
+.direct-agents{padding:12px 18px}
+.direct-agents h4{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#94a3b8;font-weight:700;margin-bottom:8px}
+
+/* OVERRIDES TABLE */
+.overrides-section{margin-top:28px}
+.overrides-section h2{font-size:18px;font-weight:700;margin-bottom:14px;color:#1a1a2e}
+.tbl-wrap{overflow-x:auto;border-radius:10px;box-shadow:0 1px 6px rgba(0,0,0,0.06)}
+table{width:100%;border-collapse:collapse;background:#fff}
+th{background:#1a1a2e;color:#fff;padding:11px 16px;text-align:left;font-size:12px;font-weight:600}
+td{padding:11px 16px;border-bottom:1px solid #e2e8f0;font-size:13px;color:#2d3748}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#f7fafc}
+
+/* SPLIT MANAGEMENT */
+.split-section{margin-top:28px}
+.split-section h2{font-size:18px;font-weight:700;margin-bottom:14px;color:#1a1a2e}
+.split-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.split-card{background:#fff;border-radius:10px;padding:16px;border:1px solid #e2e8f0;box-shadow:0 1px 4px rgba(0,0,0,0.04)}
+.split-card h3{font-size:13px;font-weight:700;color:#1a1a2e;margin-bottom:6px}
+.split-card p{font-size:12px;color:#4a5568}
+
+footer{background:#1a1a2e;color:#718096;text-align:center;padding:20px;font-size:12px;margin-top:32px}
+footer strong{color:#94a3b8}
+
+/* Avatar colors */
+.av-blue{background:#667eea}.av-green{background:#48bb78}.av-orange{background:#ed8936}.av-red{background:#e53e3e}.av-purple{background:#9f7aea}.av-teal{background:#38b2ac}.av-pink{background:#ed64a6}.av-yellow{background:#d69e2e}
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-logo">Everlife x Pipeline | Management Roster</span>
+  <button class="btn-sm" onclick="expandAll()">Expand All</button>
+  <button class="btn-sm" onclick="collapseAll()">Collapse All</button>
+  <button class="btn-sm" onclick="window.print()">🖨 Print</button>
+</nav>
+
+<div class="hero">
+  <div class="hero-badge">April 2026 — Internal Use</div>
+  <h1>Management &amp; Team Lead Roster</h1>
+  <p>Everlife x Pipeline Partners | Updated March/April 2026</p>
+</div>
+
+<div class="container">
+
+  <!-- STATS -->
+  <div class="stats-row">
+    <div class="stat-box"><div class="stat-val">8</div><div class="stat-lbl">Managers</div></div>
+    <div class="stat-box"><div class="stat-val">6</div><div class="stat-lbl">Team Leads</div></div>
+    <div class="stat-box"><div class="stat-val">70+</div><div class="stat-lbl">Total Agents</div></div>
+    <div class="stat-box"><div class="stat-val">4</div><div class="stat-lbl">Recruiters</div></div>
+  </div>
+
+  <!-- CONTROLS -->
+  <div class="controls">
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input class="search-input" id="search" type="text" placeholder="Search any name..." oninput="filterRoster()">
+    </div>
+    <button class="filter-btn active" onclick="filterBy('all',this)">All</button>
+    <button class="filter-btn" onclick="filterBy('alex',this)">Alex Olsen</button>
+    <button class="filter-btn" onclick="filterBy('ashton',this)">Ashton Cosper</button>
+    <button class="filter-btn" onclick="filterBy('bruno',this)">Bruno Suarez</button>
+    <button class="filter-btn" onclick="filterBy('parker',this)">Parker Brown</button>
+    <button class="filter-btn" onclick="filterBy('dallen',this)">Dallen Engemann</button>
+    <button class="filter-btn" onclick="filterBy('joey',this)">Joey Gerrard</button>
+  </div>
+
+  <!-- MANAGERS GRID -->
+  <div class="managers-grid" id="roster">
+
+    <!-- ALEX OLSEN -->
+    <div class="manager-card" data-manager="alex">
+      <div class="manager-header">
+        <div class="manager-avatar av-blue">AO</div>
+        <div class="manager-info">
+          <h3>Alex Olsen</h3>
+          <p>Manager</p>
+          <span class="recruiter-tag">Recruiter</span>
+        </div>
+      </div>
+      <div class="tl-section">
+        <div class="tl-header" onclick="toggleTL(this)">
+          <span class="tl-name">Landon Laaw</span>
+          <span class="tl-badge">Team Lead</span>
+          <span class="tl-toggle">▼</span>
+        </div>
+        <div class="agents-list">
+          <span class="agent-pill">Grant Maxfield</span>
+          <span class="agent-pill">Landon Hansen</span>
+          <span class="agent-pill">Aidan White</span>
+        </div>
+      </div>
+      <div class="direct-agents">
+        <h4>Direct Agents</h4>
+        <div style="display:flex;flex-wrap:wrap;gap:6px">
+          <span class="agent-pill">Eli Laroza</span>
+          <span class="agent-pill">Hailey Witman</span>
+          <span class="agent-pill">Larissa Pinkerton</span>
+          <span class="agent-pill">Peytyn Bullard</span>
+          <span class="agent-pill">Porter North</span>
+          <span class="agent-pill">Sami Olsen</span>
+          <span class="agent-pill">Richard Moreno</span>
+          <span class="agent-pill">Remington Edwards</span>
+          <span class="agent-pill">Julia Tomlinson</span>
+          <span class="agent-pill">Caidren Shook</span>
+          <span class="agent-pill">Chase Benson</span>
+          <span class="agent-pill">Will Houston</span>
+          <span class="agent-pill">Avery Price</span>
+          <span class="agent-pill">Amaro Adasme</span>
+          <span class="agent-pill">Bryan Torres</span>
+          <span class="agent-pill">Miguel Ferron</span>
+          <span class="agent-pill">Oscar Perez</span>
+          <span class="agent-pill">Jaxon Eby *</span>
+          <span class="agent-pill">Adrian Castillo *</span>
+          <span class="agent-pill">Jackson Williams *</span>
+          <span class="agent-pill">Diego Rembao *</span>
+          <span class="agent-pill">Demitri Larsen **</span>
+        </div>
+        <p style="font-size:11px;color:#94a3b8;margin-top:8px">* also under Parker Brown &nbsp;|&nbsp; ** also under Eli Laroza</p>
+      </div>
+    </div>
+
+    <!-- ASHTON COSPER -->
+    <div class="manager-card" data-manager="ashton">
+      <div class="manager-header">
+        <div class="manager-avatar av-green">AC</div>
+        <div class="manager-info">
+          <h3>Ashton Cosper</h3>
+          <p>Manager</p>
+          <span class="recruiter-tag">Recruiter</span>
+        </div>
+      </div>
+      <div class="tl-section">
+        <div class="tl-header" onclick="toggleTL(this)">
+          <span class="tl-name">Kaige Love</span>
+          <span class="tl-badge">Under Ashton</span>
+          <span class="tl-toggle">▼</span>
+        </div>
+        <div class="agents-list">
+          <span class="agent-pill">Noah Johnson</span>
+          <span class="agent-pill">Easton Hardy</span>
+          <span class="agent-pill">Parker Wheelright</span>
+          <span class="agent-pill">Hunter Mehn</span>
+          <span class="agent-pill">Grant Ward</span>
+          <span class="agent-pill">Ethan Moderno</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- BRUNO SUAREZ / TONY MODERNO -->
+    <div class="manager-card" data-manager="bruno">
+      <div class="manager-header">
+        <div class="manager-avatar av-orange">BS</div>
+        <div class="manager-info">
+          <h3>Bruno Suarez</h3>
+          <p>Manager</p>
+          <span class="recruiter-tag">Recruiter</span>
+        </div>
+      </div>
+      <div class="tl-section">
+        <div class="tl-header" onclick="toggleTL(this)">
+          <span class="tl-name">Tony Moderno</span>
+          <span class="tl-badge">Team Lead</span>
+          <span class="tl-toggle">▼</span>
+        </div>
+        <div class="agents-list">
+          <span class="agent-pill">Gehrig Teahon</span>
+          <span class="agent-pill">Jordon Jensen</span>
+          <span class="agent-pill">Deshawn Sewell</span>
+          <span class="agent-pill">Matt Huntsman</span>
+          <span class="agent-pill">Sebastian Guerrero</span>
+          <span class="agent-pill">Jacob Moore</span>
+          <span class="agent-pill">Bryan Torres</span>
+          <span class="agent-pill">Miguel Ferron</span>
+          <span class="agent-pill">Oscar Perez</span>
+          <span class="agent-pill">Avery Price</span>
+          <span class="agent-pill">Ethan Moderno</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PARKER BROWN -->
+    <div class="manager-card" data-manager="parker">
+      <div class="manager-header">
+        <div class="manager-avatar av-purple">PB</div>
+        <div class="manager-info">
+          <h3>Parker Brown</h3>
+          <p>Manager</p>
+          <span class="recruiter-tag">Recruiter</span>
+        </div>
+      </div>
+      <div class="tl-section">
+        <div class="tl-header" onclick="toggleTL(this)">
+          <span class="tl-name">Anda Musimbi</span>
+          <span class="tl-badge">Team Lead</span>
+          <span class="tl-toggle">▼</span>
+        </div>
+        <div class="agents-list">
+          <span class="agent-pill">Mckay Nelson</span>
+          <span class="agent-pill">Sawyer Rawlings</span>
+          <span class="agent-pill">Cynthia Cardenas</span>
+          <span class="agent-pill">Camden Fielding</span>
+          <span class="agent-pill">AJ Willardson</span>
+          <span class="agent-pill">Adrian Castillo</span>
+          <span class="agent-pill">Jackson Williams</span>
+          <span class="agent-pill">Diego Rembao</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- DALLEN ENGEMANN -->
+    <div class="manager-card" data-manager="dallen">
+      <div class="manager-header">
+        <div class="manager-avatar av-teal">DE</div>
+        <div class="manager-info">
+          <h3>Dallen Engemann</h3>
+          <p>Manager</p>
+          <span class="recruiter-tag">Recruiter</span>
+        </div>
+      </div>
+      <div class="tl-section">
+        <div class="tl-header" onclick="toggleTL(this)">
+          <span class="tl-name">Mason Hart</span>
+          <span class="tl-badge">Team Lead</span>
+          <span class="tl-toggle">▼</span>
+        </div>
+        <div class="agents-list">
+          <span class="agent-pill">Pat Hervey</span>
+          <span class="agent-pill">Steele Roring</span>
+          <span class="agent-pill">Aaron Crane</span>
+          <span class="agent-pill">Andrew Schouten</span>
+          <span class="agent-pill">Trenton Peterson</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- JOEY GERRARD -->
+    <div class="manager-card" data-manager="joey">
+      <div class="manager-header">
+        <div class="manager-avatar av-red">JG</div>
+        <div class="manager-info">
+          <h3>Joey Gerrard</h3>
+          <p>Manager</p>
+          <span class="recruiter-tag">Recruiter — Jordan Andersen</span>
+        </div>
+      </div>
+      <div class="tl-section">
+        <div class="tl-header" onclick="toggleTL(this)">
+          <span class="tl-name">Justin Taylor</span>
+          <span class="tl-badge">Team Lead</span>
+          <span class="tl-toggle">▼</span>
+        </div>
+        <div class="agents-list">
+          <span class="agent-pill">Thomas Coelho</span>
+          <span class="agent-pill">Cam Spence</span>
+          <span class="agent-pill">William Peterson</span>
+          <span class="agent-pill">Josh Olson</span>
+          <span class="agent-pill">Payton Smith</span>
+          <span class="agent-pill">Jackson Bench</span>
+          <span class="agent-pill">Bryler Jensen</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- BRANDON OGLETREE / COLTON RAMON (Split) -->
+    <div class="manager-card" data-manager="brandon">
+      <div class="manager-header">
+        <div class="manager-avatar av-pink">BO</div>
+        <div class="manager-info">
+          <h3>Brandon Ogletree</h3>
+          <p>Split Management</p>
+          <span class="recruiter-tag">w/ Colton Ramon</span>
+        </div>
+      </div>
+      <div class="tl-section">
+        <div class="tl-header" onclick="toggleTL(this)">
+          <span class="tl-name">Agents</span>
+          <span class="tl-badge">Recruiter: Jordan Andersen</span>
+          <span class="tl-toggle">▼</span>
+        </div>
+        <div class="agents-list">
+          <span class="agent-pill">Tyler Bodhaine</span>
+          <span class="agent-pill">Tavin Dougher</span>
+          <span class="agent-pill">Shawn Trost</span>
+          <span class="agent-pill">Jackson Brown</span>
+          <span class="agent-pill">Jordan Oliver</span>
+          <span class="agent-pill">Elina Savini</span>
+          <span class="agent-pill">Kobebryant Vaituu</span>
+          <span class="agent-pill">Ruby Vaituu</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- DALSTON WELLS / BROOKS PEDERSEN (Split) -->
+    <div class="manager-card" data-manager="dalston">
+      <div class="manager-header">
+        <div class="manager-avatar av-yellow">DW</div>
+        <div class="manager-info">
+          <h3>Dalston Wells</h3>
+          <p>Split Management</p>
+          <span class="recruiter-tag">w/ Brooks Pedersen</span>
+        </div>
+      </div>
+      <div class="tl-section">
+        <div class="tl-header" onclick="toggleTL(this)">
+          <span class="tl-name">Agents</span>
+          <span class="tl-badge">Recruiter: Jordan Andersen</span>
+          <span class="tl-toggle">▼</span>
+        </div>
+        <div class="agents-list">
+          <span class="agent-pill">Jace Beckstrom</span>
+          <span class="agent-pill">Jack Guest</span>
+          <span class="agent-pill">Samuel Hepler</span>
+          <span class="agent-pill">Andy Bingham</span>
+          <span class="agent-pill">Joshua Williams</span>
+          <span class="agent-pill">Marcus Pawelke</span>
+          <span class="agent-pill">Jessie Lorenzo</span>
+          <span class="agent-pill">Maddox Thompson</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- TRAVIS PLASH -->
+    <div class="manager-card" data-manager="travis">
+      <div class="manager-header">
+        <div class="manager-avatar av-blue">TP</div>
+        <div class="manager-info">
+          <h3>Travis Plash</h3>
+          <p>Manager</p>
+          <span class="recruiter-tag">Recruiter</span>
+        </div>
+      </div>
+      <div class="tl-section">
+        <div class="tl-header" onclick="toggleTL(this)">
+          <span class="tl-name">Agents</span>
+          <span class="tl-badge">Direct</span>
+          <span class="tl-toggle">▼</span>
+        </div>
+        <div class="agents-list">
+          <span class="agent-pill">Teanna Hasty</span>
+          <span class="agent-pill">Tyler Gonzalez</span>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end managers-grid -->
+
+  <!-- OVERRIDES -->
+  <div class="overrides-section">
+    <h2>Override Structure</h2>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Role</th><th>Override %</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Divisional</strong></td><td>10%</td><td>Top level override</td></tr>
+          <tr><td><strong>Manager</strong></td><td>10%</td><td>Per manager on their team's production</td></tr>
+          <tr><td><strong>Team Lead</strong></td><td>5%</td><td>On agents directly under them</td></tr>
+          <tr><td><strong>Recruiter</strong></td><td>10%</td><td>On recruits' production</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- PIPELINE NOTES -->
+  <div class="split-section">
+    <h2>Pipeline Team Notes</h2>
+    <div class="split-grid">
+      <div class="split-card">
+        <h3>📋 Adding / Removing Agents</h3>
+        <p>When a manager adds or removes an agent from their team, notify the Pipeline team immediately with:<br><br>• Agent name<br>• Start date (or end date)<br>• Manager / Team Lead they're under<br><br>Keeps routing clean and organized.</p>
+      </div>
+      <div class="split-card">
+        <h3>🔄 Split Management</h3>
+        <p>Some agents are under split management (e.g., Brandon Ogletree / Colton Ramon, Dalston Wells / Brooks Pedersen). Jordan Andersen serves as recruiter across several groups. Confirm with both parties when routing or escalating calls.</p>
+      </div>
+      <div class="split-card">
+        <h3>🚨 Escalation Path</h3>
+        <p>Agent issue → Team Lead → Manager → Pipeline Team<br><br>When escalating a call always include:<br>• Caller ID (phone number)<br>• Short note on the issue<br>• Recording if available<br><br>Response expectation: 1–2 hours.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <strong>Everlife x Pipeline Partners</strong> &nbsp;|&nbsp; Management Roster &nbsp;|&nbsp; Internal Use Only &nbsp;|&nbsp; Updated April 2026
+</footer>
+
+<script>
+function toggleTL(header) {
+  const list = header.nextElementSibling;
+  const toggle = header.querySelector('.tl-toggle');
+  const isOpen = list.classList.contains('open');
+  list.classList.toggle('open', !isOpen);
+  toggle.classList.toggle('open', !isOpen);
+}
+
+function expandAll() {
+  document.querySelectorAll('.agents-list').forEach(l => l.classList.add('open'));
+  document.querySelectorAll('.tl-toggle').forEach(t => t.classList.add('open'));
+}
+
+function collapseAll() {
+  document.querySelectorAll('.agents-list').forEach(l => l.classList.remove('open'));
+  document.querySelectorAll('.tl-toggle').forEach(t => t.classList.remove('open'));
+}
+
+function filterBy(manager, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.manager-card').forEach(card => {
+    if (manager === 'all') card.classList.remove('hidden');
+    else card.classList.toggle('hidden', card.dataset.manager !== manager);
+  });
+  document.getElementById('search').value = '';
+}
+
+function filterRoster() {
+  const q = document.getElementById('search').value.toLowerCase().trim();
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector('.filter-btn').classList.add('active');
+  if (!q) {
+    document.querySelectorAll('.manager-card').forEach(c => c.classList.remove('hidden'));
+    document.querySelectorAll('.agent-pill').forEach(p => p.classList.remove('highlight'));
+    return;
+  }
+  document.querySelectorAll('.manager-card').forEach(card => {
+    const text = card.innerText.toLowerCase();
+    card.classList.toggle('hidden', !text.includes(q));
+    if (text.includes(q)) {
+      card.querySelectorAll('.agent-pill').forEach(pill => {
+        pill.classList.toggle('highlight', pill.innerText.toLowerCase().includes(q));
+      });
+      expandAll();
+    }
+  });
+}
+</script>
+</body>
+</html>
