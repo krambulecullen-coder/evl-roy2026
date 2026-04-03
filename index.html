@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Everlife + Pipeline | Medicare ROY 2026</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f0f2f8;color:#1a1a2e;line-height:1.6}
+
+/* NAV */
+nav{background:#1a1a2e;padding:0 28px;display:flex;align-items:center;position:sticky;top:0;z-index:200;box-shadow:0 2px 12px rgba(0,0,0,0.3)}
+.nav-logo{color:#fff;font-weight:700;font-size:15px;margin-right:auto;padding:16px 0;white-space:nowrap}
+.nav-tabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
+.nav-tabs::-webkit-scrollbar{display:none}
+.tab-btn{background:none;border:none;color:#94a3b8;padding:18px 14px;font-size:13px;cursor:pointer;white-space:nowrap;border-bottom:3px solid transparent;transition:all 0.2s;font-family:inherit}
+.tab-btn:hover{color:#e2e8f0}
+.tab-btn.active{color:#fff;border-bottom-color:#667eea}
+.nav-actions{display:flex;gap:8px;margin-left:16px;flex-shrink:0}
+.btn-sm{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:#e2e8f0;padding:6px 14px;border-radius:6px;font-size:12px;cursor:pointer;font-family:inherit;transition:background 0.2s}
+.btn-sm:hover{background:rgba(255,255,255,0.2)}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,#1a1a2e,#16213e 60%,#0f3460);padding:48px 28px 36px;text-align:center}
+.hero-badge{display:inline-block;background:rgba(255,255,255,0.1);color:#a0d8ef;border:1px solid rgba(255,255,255,0.15);padding:4px 14px;border-radius:20px;font-size:11px;letter-spacing:1px;text-transform:uppercase;margin-bottom:14px}
+.hero h1{color:#fff;font-size:30px;font-weight:700;margin-bottom:6px}
+.hero p{color:#94a3b8;font-size:14px;max-width:560px;margin:0 auto}
+
+/* PANELS */
+.panel{display:none;animation:fadeIn 0.25s ease}
+.panel.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.container{max-width:1080px;margin:0 auto;padding:32px 24px}
+
+/* CARDS */
+.card{background:#fff;border-radius:12px;padding:22px;box-shadow:0 1px 6px rgba(0,0,0,0.06);border:1px solid #e2e8f0}
+.card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:16px}
+.card h3{font-size:15px;font-weight:700;color:#1a1a2e;margin-bottom:6px}
+.card p{font-size:13px;color:#4a5568}
+.stat-num{font-size:24px;font-weight:700;color:#667eea;margin:6px 0 4px}
+.card-icon{font-size:22px;margin-bottom:8px}
+
+/* SECTION HEADER */
+.section-hdr{margin-bottom:24px}
+.section-label{font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:#667eea;font-weight:700;margin-bottom:4px}
+.section-hdr h2{font-size:24px;font-weight:700;color:#1a1a2e}
+.section-hdr p{color:#718096;font-size:14px;margin-top:4px}
+
+/* METRICS ROW */
+.metrics-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:24px}
+.metric{background:#fff;border-radius:10px;padding:16px;text-align:center;border:1px solid #e2e8f0;box-shadow:0 1px 4px rgba(0,0,0,0.04)}
+.metric-val{font-size:26px;font-weight:700;color:#667eea}
+.metric-lbl{font-size:11px;color:#718096;text-transform:uppercase;letter-spacing:0.5px;margin-top:3px}
+
+/* TLDR */
+.tldr-box{background:#fff;border-left:5px solid #e53e3e;border-radius:0 12px 12px 0;padding:28px 32px;box-shadow:0 2px 10px rgba(0,0,0,0.06);margin-bottom:24px}
+.tldr-label{font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:#e53e3e;font-weight:700;margin-bottom:8px}
+.tldr-box h2{font-size:20px;font-weight:700;margin-bottom:10px}
+.tldr-box p{color:#4a5568;font-size:14px;margin-bottom:10px}
+.alert-red{background:#fff5f5;border:1px solid #feb2b2;border-radius:10px;padding:16px 20px;margin-top:14px}
+.alert-red .alert-lbl{font-size:11px;font-weight:700;color:#c53030;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.alert-red p{color:#742a2a;font-size:13px;margin:0}
+.alert-blue{background:#ebf8ff;border:1px solid #bee3f8;border-radius:10px;padding:16px 20px;margin-top:14px}
+.alert-blue .alert-lbl{font-size:11px;font-weight:700;color:#2b6cb0;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.alert-blue p{color:#2a4365;font-size:13px;margin-bottom:6px}
+.alert-blue p:last-child{margin:0}
+
+/* TABLE */
+.tbl-wrap{overflow-x:auto;border-radius:10px;box-shadow:0 1px 6px rgba(0,0,0,0.06);margin-top:16px}
+table{width:100%;border-collapse:collapse;background:#fff}
+th{background:#1a1a2e;color:#fff;padding:11px 14px;text-align:left;font-size:12px;font-weight:600;letter-spacing:0.3px}
+td{padding:11px 14px;border-bottom:1px solid #e2e8f0;font-size:13px;color:#2d3748}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#f7fafc}
+tr.hidden-row{display:none}
+
+/* BADGES */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600}
+.badge-red{background:#fff5f5;color:#c53030;border:1px solid #feb2b2}
+.badge-yellow{background:#fffff0;color:#b7791f;border:1px solid #faf089}
+.badge-green{background:#f0fff4;color:#276749;border:1px solid #9ae6b4}
+.badge-blue{background:#ebf8ff;color:#2b6cb0;border:1px solid #bee3f8}
+.badge-gray{background:#f7fafc;color:#4a5568;border:1px solid #e2e8f0}
+.badge-purple{background:#faf5ff;color:#6b21a8;border:1px solid #d8b4fe}
+
+/* TIER BLOCKS */
+.tier-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:16px}
+.tier-block{border-radius:10px;padding:18px}
+.t1{background:#f0fff4;border:1px solid #9ae6b4}
+.t2{background:#fffff0;border:1px solid #faf089}
+.t3{background:#f7fafc;border:1px solid #e2e8f0}
+.t1 h3{color:#276749;font-size:13px;font-weight:700;margin-bottom:8px}
+.t2 h3{color:#b7791f;font-size:13px;font-weight:700;margin-bottom:8px}
+.t3 h3{color:#4a5568;font-size:13px;font-weight:700;margin-bottom:8px}
+.state-pills{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px}
+.state-pill{background:rgba(255,255,255,0.7);border-radius:5px;padding:2px 8px;font-size:12px;font-weight:700}
+.tier-block p{font-size:12px;color:#4a5568}
+
+/* FILTER BAR */
+.filter-bar{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;align-items:center}
+.filter-bar span{font-size:13px;color:#718096;font-weight:600}
+.filter-btn{background:#fff;border:1px solid #e2e8f0;color:#4a5568;padding:5px 14px;border-radius:20px;font-size:12px;cursor:pointer;font-family:inherit;transition:all 0.2s}
+.filter-btn:hover,.filter-btn.active{background:#667eea;color:#fff;border-color:#667eea}
+
+/* COMPLIANCE */
+.compliance-list{list-style:none;margin-top:14px}
+.compliance-item{display:flex;gap:12px;padding:14px 0;border-bottom:1px solid #e2e8f0}
+.compliance-item:last-child{border-bottom:none}
+.step-num{flex-shrink:0;width:26px;height:26px;background:#1a1a2e;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+.step-content h4{font-size:13px;font-weight:700;color:#1a1a2e;margin-bottom:2px}
+.step-content p{font-size:13px;color:#4a5568}
+.step-content code{background:#f7fafc;border:1px solid #e2e8f0;border-radius:4px;padding:2px 5px;font-size:11px;color:#c53030}
+.bullet-list{list-style:none;padding:0;margin-top:12px}
+.bullet-list li{padding:4px 0 4px 18px;position:relative;font-size:13px;color:#4a5568}
+.bullet-list li::before{content:'→';position:absolute;left:0;color:#667eea;font-weight:700}
+
+/* BD CARDS */
+.bd-card{background:#fff;border-radius:12px;padding:20px;box-shadow:0 1px 6px rgba(0,0,0,0.06);border:1px solid #e2e8f0;margin-bottom:14px;cursor:pointer;transition:box-shadow 0.2s}
+.bd-card:hover{box-shadow:0 4px 16px rgba(0,0,0,0.1)}
+.bd-header{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.bd-header h3{font-size:15px;font-weight:700;color:#1a1a2e}
+.bd-header-right{display:flex;align-items:center;gap:8px}
+.bd-toggle{font-size:16px;color:#94a3b8;transition:transform 0.2s;flex-shrink:0}
+.bd-body{display:none;margin-top:14px;border-top:1px solid #e2e8f0;padding-top:14px}
+.bd-body.open{display:block}
+.bd-body p{font-size:13px;color:#4a5568;margin-bottom:8px}
+.bd-body .expand-note{font-size:13px;color:#667eea;font-style:italic}
+
+/* CHECKLIST */
+.checklist{list-style:none;margin-top:14px}
+.checklist li{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid #f0f2f8;font-size:13px;color:#4a5568;cursor:pointer;transition:color 0.2s}
+.checklist li:last-child{border-bottom:none}
+.checklist li.done{color:#276749;text-decoration:line-through;opacity:0.6}
+.checklist .chk-box{flex-shrink:0;width:18px;height:18px;border:2px solid #cbd5e0;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:11px;transition:all 0.2s}
+.checklist li.done .chk-box{background:#276749;border-color:#276749;color:#fff}
+
+/* SEARCH */
+.search-wrap{position:relative;margin-bottom:16px}
+.search-input{width:100%;padding:10px 16px 10px 38px;border:1px solid #e2e8f0;border-radius:8px;font-size:13px;font-family:inherit;outline:none;background:#fff}
+.search-input:focus{border-color:#667eea;box-shadow:0 0 0 3px rgba(102,126,234,0.1)}
+.search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#94a3b8;font-size:15px}
+
+/* PROGRESS BAR */
+.progress-bar{background:#e2e8f0;border-radius:20px;height:8px;margin:12px 0}
+.progress-fill{background:linear-gradient(90deg,#667eea,#48bb78);height:100%;border-radius:20px;transition:width 0.5s}
+
+/* DIVIDER */
+.divider{height:1px;background:#e2e8f0;margin:14px 0}
+
+/* PRINT */
+@media print{nav,.nav-actions,.filter-bar,.search-wrap,.btn-sm{display:none!important}.panel{display:block!important}.bd-body{display:block!important}}
+
+/* FOOTER */
+footer{background:#1a1a2e;color:#718096;text-align:center;padding:24px;font-size:12px;margin-top:0}
+footer strong{color:#94a3b8}
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-logo">Everlife + Pipeline | ROY 2026</span>
+  <div class="nav-tabs">
+    <button class="tab-btn active" onclick="switchTab('overview',this)">TL;DR</button>
+    <button class="tab-btn" onclick="switchTab('exec',this)">Executive</button>
+    <button class="tab-btn" onclick="switchTab('framework',this)">Framework</button>
+    <button class="tab-btn" onclick="switchTab('sep',this)">SEP Data</button>
+    <button class="tab-btn" onclick="switchTab('segments',this)">Segments</button>
+    <button class="tab-btn" onclick="switchTab('compliance',this)">Compliance</button>
+    <button class="tab-btn" onclick="switchTab('bd',this)">BD Strategy</button>
+    <button class="tab-btn" onclick="switchTab('actions',this)">✅ Action Items</button>
+  </div>
+  <div class="nav-actions">
+    <button class="btn-sm" onclick="window.print()">🖨 Print</button>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-badge">April 2026 — Internal Strategy</div>
+  <h1>Medicare Advantage ROY 2026</h1>
+  <p>Strategic alignment between Everlife's Medicare pipeline, SEP targeting, and organic growth.</p>
+</div>
+
+<!-- ===== TL;DR ===== -->
+<div id="overview" class="panel active">
+  <div class="container">
+    <div class="tldr-box">
+      <div class="tldr-label">TL;DR — Read This First</div>
+      <h2>What This Document Is &amp; Why It Matters</h2>
+      <p>This document aligns Everlife on Pipeline's lead plan, how we're growing, and where we can pivot for real organic growth. It pulls from Casey's real-time carrier data, CMS compliance requirements, and our own pipeline feedback — one source of truth for ROY 2026.</p>
+      <p>The core goal: <strong>keep enrollments humming through SEP season while building the organic infrastructure that locks us into the marketing game with larger networks long-term.</strong> Pipeline helps Everlife build its own Medicare product — that's what gets us to selling calls and leads to all the major players.</p>
+      <p>Three engines run simultaneously: <strong>Pipeline partners</strong> (near-term volume), <strong>inbound call buying</strong> (scaling now), and <strong>organic lead gen</strong> (building for 2027+).</p>
+
+      <div class="alert-red">
+        <div class="alert-lbl">⚠️ Huge Priority — Enrollment Review</div>
+        <p><strong>Pipeline is actively reviewing which enrollments and SEPs Everlife agents and partners are using right now.</strong> Cory is adding an SEP tag in Salesforce so agents can flag which SEP type they're using on each enrollment — giving us real-time data to pivot fast and A/B test multiple products. Weekly reviews are required to stay ahead of window closings and carrier approvals.</p>
+      </div>
+
+      <div class="alert-blue" style="margin-top:14px">
+        <div class="alert-lbl">📋 What This Doc Covers &amp; How We Stay Aligned</div>
+        <p>Active SEP windows + carrier status · Enrollment segment strategy (IEP/T65, LIS, DST-SEP, C-SNP) · Organic content roadmap · BD partner profiles · Compliance requirements.</p>
+        <p><strong>How we move the needle:</strong> Weekly pipeline/Everlife alignment on what's enrolling → adjust affiliate creatives and organic content → monitor PA/OH approvals daily → scale inbound calls as metrics validate → build content library for 2027 white-label. One team, one direction, no wasted spend.</p>
+      </div>
+    </div>
+
+    <div class="card-grid">
+      <div class="card" style="border-left:4px solid #e53e3e">
+        <div class="card-icon">🚨</div>
+        <h3>Act Now — AL &amp; LA</h3>
+        <p><strong>AL:</strong> ~61 days remaining (May 31)<br><strong>LA:</strong> ~30 days remaining (Apr 30) + 35% LIS population<br>Highest-intent, fastest-closing volume of Q2.</p>
+      </div>
+      <div class="card" style="border-left:4px solid #667eea">
+        <div class="card-icon">📅</div>
+        <h3>April 6 Go-Live</h3>
+        <p>Inbound call channel launches. Paragon (20/day) + Healthy Labs (50/day). Mike Searle back. Five9 routing confirmed. Monitor CPT, billable %, CPA daily.</p>
+      </div>
+      <div class="card" style="border-left:4px solid #48bb78">
+        <div class="card-icon">🌱</div>
+        <h3>Organic Build Starts Now</h3>
+        <p>T65/IEP primary focus. FAQ/AEO/GEO schema. Build Everlife as the trusted Medicare knowledge source. PA/OH approval = immediate launch.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== EXECUTIVE SUMMARY ===== -->
+<div id="exec" class="panel">
+  <div class="container">
+    <div class="section-hdr">
+      <div class="section-label">Part 1</div>
+      <h2>Executive Summary</h2>
+      <p>Three parallel growth engines. One aligned team. 10,000–15,000 MA enrollments targeted for ROY 2026.</p>
+    </div>
+
+    <div class="metrics-row">
+      <div class="metric"><div class="metric-val">10–15K</div><div class="metric-lbl">Target Enrollments ROY 2026</div></div>
+      <div class="metric"><div class="metric-val">14</div><div class="metric-lbl">Target States</div></div>
+      <div class="metric"><div class="metric-val">$30</div><div class="metric-lbl">Target CPT (Inbound)</div></div>
+      <div class="metric"><div class="metric-val">$250</div><div class="metric-lbl">Target CPA</div></div>
+      <div class="metric"><div class="metric-val">70%+</div><div class="metric-lbl">Billable % Target</div></div>
+    </div>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon">🤝</div>
+        <h3>Pipeline Partners</h3>
+        <div class="stat-num">8,500–10,000</div>
+        <p>Enrollments via broker/partner network. Near-term, predictable revenue. Ongoing through Dec 2026. Caleb is actively pushing partners to align with Everlife’s SEP/ROY targeting and ensure compliance across all active campaigns.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📞</div>
+        <h3>Inbound Call Buying</h3>
+        <div class="stat-num">50–150</div>
+        <p>Consumer-initiated Medicare calls routed directly into Everlife call center. Go-live TBD — pending confirmation from Mike Searle. Paragon and Healthy Labs confirmed. Scale to 200–700 calls/day through SEP season once live.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🌱</div>
+        <h3>Organic Strategy</h3>
+        <div class="stat-num">50–350 (2026)</div>
+        <p>Build Everlife as the go-to Medicare knowledge source. Primary: T65/IEP and MA education. DST-SEP/C-SNP handled differently — FAQ/AEO/GEO schema approach. Lead flow Oct 2026; scales to 1,000+ in 2027.</p>
+      </div>
+    </div>
+
+    <div class="divider" style="margin:24px 0"></div>
+    <h3 style="font-size:16px;font-weight:700;margin-bottom:12px">Vendor Pipeline (Inbound Channel)</h3>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Vendor</th><th>Contact</th><th>Cap/Day</th><th>Rate</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Paragon Media</strong></td><td>Dallin Bird / Nick</td><td>20/day</td><td>$30/90s</td><td><span class="badge badge-green">● Approved — IO In Progress</span></td></tr>
+          <tr><td><strong>Healthy Labs</strong></td><td>Deb Fox / Ethan Ogg</td><td>50/day</td><td>$40/90s</td><td><span class="badge badge-green">● Live Apr 6</span></td></tr>
+          <tr><td><strong>Providence</strong></td><td>Matt Nguyen</td><td>TBD</td><td>$13–14 RPC / $155–160 CPA</td><td><span class="badge badge-yellow">● Compliance Pending</span></td></tr>
+          <tr><td><strong>JuneArch</strong></td><td>Dane Hartog</td><td>TBD</td><td>TBD</td><td><span class="badge badge-yellow">● Compliance Form Sent</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ===== FRAMEWORK ===== -->
+<div id="framework" class="panel">
+  <div class="container">
+    <div class="section-hdr">
+      <div class="section-label">Part 2</div>
+      <h2>Strategic Framework</h2>
+      <p>Market context, channel volume, and the three-pillar organic strategy.</p>
+    </div>
+
+    <div class="tbl-wrap" style="margin-bottom:24px">
+      <table>
+        <thead><tr><th>Channel</th><th>Timeline</th><th>Volume</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Pipeline (Brokers/Partners)</strong></td><td>Apr–Dec 2026</td><td>8,500–10,000 enrollments</td><td><span class="badge badge-green">● Active</span></td></tr>
+          <tr><td><strong>SEP/IEP Targeting</strong></td><td>Immediate AL/LA; PA/OH pending</td><td>200–500 enrollments</td><td><span class="badge badge-red">● Urgent Now</span></td></tr>
+          <tr><td><strong>Organic (Content, SEO)</strong></td><td>Build Apr–Sep; leads Oct–Dec+</td><td>50–350 (2026); 1,000+ by 2027</td><td><span class="badge badge-blue">● Building</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card-grid" style="margin-bottom:24px">
+      <div class="card"><h3>34.1M Enrollees</h3><p>Medicare Advantage covers 54% of all eligible beneficiaries nationwide.</p></div>
+      <div class="card"><h3>4% YoY Growth</h3><p>SNPs account for 48% of net new MA growth — our primary targeting opportunity.</p></div>
+      <div class="card"><h3>46% Market Share</h3><p>UnitedHealth + Humana hold nearly half the MA market. Carrier relationships matter.</p></div>
+    </div>
+
+    <h3 style="font-size:16px;font-weight:700;margin-bottom:14px">Organic — Three Pillars</h3>
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon">📝</div>
+        <h3>Pillar 1 — Content &amp; Tools</h3>
+        <p><strong>Primary:</strong> T65/IEP and Medicare Advantage education — landing pages, eligibility guides, FAQ/AEO/GEO schema. Build Everlife as the trusted source people find when they search.<br><br><strong>Supporting:</strong> DST-SEP and C-SNP content included but handled differently — more nuanced eligibility, compliance-sensitive. 30–50 articles total. Own all IP for white-label licensing in 2027.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📣</div>
+        <h3>Pillar 2 — Paid Media</h3>
+        <p>Google Ads (high-intent keywords), Facebook/Instagram retargeting.<br><br>Budget: <strong>$15–25k Q2–Q3</strong> testing; <strong>$30–50k Q4</strong> AEP ramp.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🌐</div>
+        <h3>Pillar 3 — Community &amp; Brand</h3>
+        <p>Monthly newsletter, LinkedIn thought leadership, white-label licensing for partners in 2027+.<br><br>This is what gets us to SelectQuote, Exact Medicare, and beyond.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SEP DATA ===== -->
+<div id="sep" class="panel">
+  <div class="container">
+    <div class="section-hdr">
+      <div class="section-label">Part 3 — Casey's Data</div>
+      <h2>SEP Reference Guide &amp; State Status</h2>
+      <p>Real-time carrier-verified SEP eligibility across all 14 target states. Updated April 1, 2026.</p>
+    </div>
+
+    <div class="alert-red" style="margin-bottom:20px;border-radius:10px">
+      <div class="alert-lbl">🚨 Act Now — AL &amp; LA Windows Closing</div>
+      <p><strong>Alabama:</strong> Active through May 31, 2026 (~61 days). Statewide. All carriers. Launch immediately.<br>
+      <strong>Louisiana:</strong> Active through April 30, 2026 (~30 days). 35% LIS population — stack DST-SEP + zero-premium. Final push NOW.</p>
+    </div>
+
+    <div class="filter-bar">
+      <span>Filter:</span>
+      <button class="filter-btn active" onclick="filterSEP('all',this)">All States</button>
+      <button class="filter-btn" onclick="filterSEP('t1',this)">Tier 1 — Buy Now</button>
+      <button class="filter-btn" onclick="filterSEP('t2',this)">Tier 2 — Monitor</button>
+      <button class="filter-btn" onclick="filterSEP('t3',this)">Tier 3 — IEP/LIS</button>
+      <button class="filter-btn" onclick="filterSEP('active',this)">Active Only</button>
+    </div>
+
+    <div class="tbl-wrap">
+      <table id="sep-table">
+        <thead><tr><th>State</th><th>Status</th><th>Incident</th><th>Window</th><th>Carriers</th><th>Tier</th></tr></thead>
+        <tbody>
+          <tr data-tier="t2" data-status="active"><td><strong>Alabama</strong></td><td><span class="badge badge-red">● Active</span></td><td>Severe Winter Weather</td><td>Jan 22 – May 31, 2026</td><td>Humana, Aetna, HealthSpring</td><td><span class="badge badge-yellow">Tier 2</span></td></tr>
+          <tr data-tier="t2" data-status="active"><td><strong>Louisiana</strong></td><td><span class="badge badge-red">● Active</span></td><td>Winter Weather</td><td>Jan 22 – Apr 30, 2026</td><td>All carriers + 35% LIS</td><td><span class="badge badge-yellow">Tier 2</span></td></tr>
+          <tr data-tier="t2" data-status="pending"><td><strong>Pennsylvania</strong></td><td><span class="badge badge-yellow">● Pending</span></td><td>Severe Winter Storm</td><td>Expected 2–4 weeks</td><td>Humana, Aetna, HealthSpring active; Wellcare pending</td><td><span class="badge badge-yellow">Tier 2</span></td></tr>
+          <tr data-tier="t2" data-status="pending"><td><strong>Ohio</strong></td><td><span class="badge badge-yellow">● Pending</span></td><td>Winter Storm Fern</td><td>Expected 2–4 weeks</td><td>Humana, Aetna, HealthSpring active; Wellcare pending</td><td><span class="badge badge-yellow">Tier 2</span></td></tr>
+          <tr data-tier="t1" data-status="active"><td><strong>South Carolina</strong></td><td><span class="badge badge-green">● Active</span></td><td>Disaster Declaration</td><td>Through 3/31/2027</td><td>All carriers</td><td><span class="badge badge-green">Tier 1</span></td></tr>
+          <tr data-tier="t1" data-status="active"><td><strong>Kentucky</strong></td><td><span class="badge badge-green">● Active</span></td><td>Disaster Declaration</td><td>Through 3/31/2027</td><td>All carriers</td><td><span class="badge badge-green">Tier 1</span></td></tr>
+          <tr data-tier="t1" data-status="active"><td><strong>Tennessee</strong></td><td><span class="badge badge-green">● Active</span></td><td>Disaster Declaration</td><td>Through 6/30/2026</td><td>All carriers</td><td><span class="badge badge-green">Tier 1</span></td></tr>
+          <tr data-tier="t1" data-status="active"><td><strong>Georgia</strong></td><td><span class="badge badge-green">● Active</span></td><td>Disaster Declaration</td><td>Through 4/30/2026</td><td>All carriers</td><td><span class="badge badge-green">Tier 1</span></td></tr>
+          <tr data-tier="t1" data-status="active"><td><strong>Indiana</strong></td><td><span class="badge badge-green">● Active</span></td><td>Disaster Declaration</td><td>Through 3/31/2027</td><td>Wellcare, Aetna, HealthSpring</td><td><span class="badge badge-green">Tier 1</span></td></tr>
+          <tr data-tier="t1" data-status="active"><td><strong>Virginia</strong></td><td><span class="badge badge-green">● Active</span></td><td>Disaster Declaration</td><td>Through 4/30/2026</td><td>Humana, Aetna, HealthSpring</td><td><span class="badge badge-green">Tier 1</span></td></tr>
+          <tr data-tier="t2" data-status="active"><td><strong>Missouri</strong></td><td><span class="badge badge-yellow">● Active</span></td><td>Disaster Declaration</td><td>Through 4/30/2026</td><td>Humana, Aetna, HealthSpring</td><td><span class="badge badge-yellow">Tier 2</span></td></tr>
+          <tr data-tier="t3" data-status="limited"><td><strong>Texas</strong></td><td><span class="badge badge-gray">County-Specific</span></td><td>Limited</td><td>Through 4/30/2026</td><td>Aetna, HealthSpring only</td><td><span class="badge badge-gray">Tier 3 — IEP/LIS</span></td></tr>
+          <tr data-tier="t3" data-status="limited"><td><strong>Illinois</strong></td><td><span class="badge badge-gray">Limited</span></td><td>Limited</td><td>Through 4/30/2026</td><td>Humana, Aetna only</td><td><span class="badge badge-gray">Tier 3 — IEP/LIS</span></td></tr>
+          <tr data-tier="t3" data-status="none"><td><strong>Arizona</strong></td><td><span class="badge badge-gray">No DST-SEP</span></td><td>None</td><td>—</td><td>None</td><td><span class="badge badge-gray">Tier 3 — IEP/LIS</span></td></tr>
+          <tr data-tier="t3" data-status="none"><td><strong>Michigan</strong></td><td><span class="badge badge-gray">No DST-SEP</span></td><td>None</td><td>—</td><td>None</td><td><span class="badge badge-gray">Tier 3 — IEP/LIS</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tier-grid" style="margin-top:20px">
+      <div class="tier-block t1">
+        <h3>✅ Tier 1 — Buy Hard Now</h3>
+        <div class="state-pills"><span class="state-pill">SC</span><span class="state-pill">KY</span><span class="state-pill">TN</span><span class="state-pill">GA</span><span class="state-pill">IN</span><span class="state-pill">VA</span></div>
+        <p>All carriers active. Long windows (most through 2027). Multi-carrier confirmed statewide. Maximum focus.</p>
+      </div>
+      <div class="tier-block t2">
+        <h3>⚡ Tier 2 — Active + Monitor</h3>
+        <div class="state-pills"><span class="state-pill">AL</span><span class="state-pill">LA</span><span class="state-pill">OH</span><span class="state-pill">PA</span><span class="state-pill">MO</span></div>
+        <p>Strong but time-limited or pending Wellcare approval. Monitor PA/OH daily — launch within 24 hours of approval.</p>
+      </div>
+      <div class="tier-block t3">
+        <h3>📋 Tier 3 — IEP/LIS</h3>
+        <div class="state-pills"><span class="state-pill">TX</span><span class="state-pill">IL</span><span class="state-pill">AZ</span><span class="state-pill">MI</span></div>
+        <p>No statewide DST-SEP. Pivot to IEP (age-in 65) and LIS (low-income subsidy) targeting strategies.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SEGMENTS ===== -->
+<div id="segments" class="panel">
+  <div class="container">
+    <div class="section-hdr">
+      <div class="section-label">Part 4</div>
+      <h2>Enrollment Targets by Segment</h2>
+      <p>Four high-intent targeting segments with distinct messaging, organic content, and enrollment volume targets.</p>
+    </div>
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon">🎂</div>
+        <h3>IEP — Age-In 65 (T65)</h3>
+        <div class="stat-num">400+</div>
+        <p><strong>Strategy:</strong> Highly sought-after market. Partners will sell IEP leads at a higher price point. Target turning-65 prospects across 14 states via marketing lists, employee benefits, referrals. Pipeline currently at a 61% placement rate with 2,800 active policies.</p>
+        <div class="divider"></div>
+        <p><strong>Organic:</strong> Longer growth play — building a small book to beneficiaries directly, launching organic content to lock in this market over time. "Turning 65?" landing pages, eligibility quiz, 3-month email drip, Google/Facebook ads. Heavy Q2–Q3 and Oct–Dec (AEP adjacent). Primary organic focus. Pipeline is actively monitoring sources and compliance across all SEP segments.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🌪️</div>
+        <h3>DST-SEP — Disasters</h3>
+        <div class="stat-num">300+</div>
+        <p><strong>Strategy:</strong> Contact affected beneficiaries during active SEP windows. High-intent, fast-closing.</p>
+        <div class="divider"></div>
+        <p><strong>Organic:</strong> Disaster landing pages become evergreen assets for future SEP events. More compliance-sensitive — intrusive eligibility questions require careful FAQ/schema handling. Build now, reuse forever.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">💰</div>
+        <h3>LIS — Low-Income Subsidy</h3>
+        <div class="stat-num">300+</div>
+        <p><strong>Strategy:</strong> Identify LIS beneficiaries, pitch zero-premium alternatives. Louisiana prime (35% LIS). Monthly switching opportunity.</p>
+        <div class="divider"></div>
+        <p><strong>Organic:</strong> "Zero-Premium Plans" messaging, email nurture, blog content. Ongoing + seasonal peaks.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">⭐</div>
+        <h3>5-Star Plans &amp; C-SNP</h3>
+        <div class="stat-num">150+</div>
+        <p><strong>Strategy:</strong> Pitch top-rated plans by ZIP code. Casey is actively sending Caleb and Cullen ZIP codes as they identify them — already found UHC 5-star plans in GA (ZIPs 30290 &amp; 30520). Kaiser (NorCal/SoCal) also confirmed 5-star for 2026. 5-star plans available in 14 states + Puerto Rico.</p>
+        <div class="divider"></div>
+        <p><strong>Organic:</strong> ZIP-code targeting. "Highest-Rated Plans in [Your City]." C-SNP content requires nuanced approach — chronic condition eligibility questions are compliance-sensitive. Pipeline is actively monitoring sources and compliance across all SEP/5-star segments.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== COMPLIANCE ===== -->
+<div id="compliance" class="panel">
+  <div class="container">
+    <div class="section-hdr">
+      <div class="section-label">Part 5</div>
+      <h2>Compliance Requirements</h2>
+      <p>CMS audits DST-SEP documentation heavily. Every enrollment must pass this 5-step verification. No exceptions.</p>
+    </div>
+    <div class="alert-red" style="border-radius:10px;margin-bottom:20px">
+      <div class="alert-lbl">⚠️ Audit Risk</div>
+      <p>If CRM documentation doesn't show the full verification below, CMS auditors flag it immediately. Non-compliant enrollments result in plan disenrollment and carrier penalties.</p>
+    </div>
+    <div class="card">
+      <ul class="compliance-list">
+        <li class="compliance-item">
+          <div class="step-num">1</div>
+          <div class="step-content"><h4>Verify Residency</h4><p>Proof (ID, utility bill, lease) OR verbal attestation accepted per CMS/Humana/Wellcare. Document which was provided.</p></div>
+        </li>
+        <li class="compliance-item">
+          <div class="step-num">2</div>
+          <div class="step-content"><h4>Confirm Missed Enrollment Period</h4><p>Agent must ask AND document which enrollment period was missed and why. Required — not optional.</p></div>
+        </li>
+        <li class="compliance-item">
+          <div class="step-num">3</div>
+          <div class="step-content"><h4>Document in CRM (Word-for-Word)</h4><p>Exact format: <code>"DST-SEP [STATE]. Beneficiary attests residency in [COUNTY] during [INCIDENT DATE RANGE]. [PROOF TYPE]. Confirmed missed enrollment: [WHICH]. Election code: SEP DST. Agent: [NAME]. Date: [MM/DD/YYYY]."</code></p></div>
+        </li>
+        <li class="compliance-item">
+          <div class="step-num">4</div>
+          <div class="step-content"><h4>One Election Per SEP</h4><p>Enroll, disenroll, or switch — only ONE action per SEP event.</p></div>
+        </li>
+        <li class="compliance-item">
+          <div class="step-num">5</div>
+          <div class="step-content"><h4>Correct Election Code + Never Cold-Market</h4><p>Election code: <code>SEP DST</code> (Humana/Wellcare). Per Humana: "Never use as a marketing tool. Wait for inbound interest."</p></div>
+        </li>
+      </ul>
+    </div>
+    <div class="divider" style="margin:20px 0"></div>
+    <h3 style="font-size:15px;font-weight:700;margin-bottom:10px">Inbound Call Compliance</h3>
+    <div class="card">
+      <ul class="bullet-list">
+        <li>Consumer-initiated only — beneficiary must initiate call from a CMS-compliant lander</li>
+        <li>SMID required on all vendor creatives</li>
+        <li>TPMO disclaimer + explicit Medicare Advantage language on all materials</li>
+        <li>Call recordings retained by vendor</li>
+        <li>Jornaya LeadID required for lead-gen flows (where applicable)</li>
+        <li>Minimum 90-second call duration for billable</li>
+        <li>Hours of operation: Monday–Friday 8am–5pm MST</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ===== BD STRATEGY ===== -->
+<div id="bd" class="panel">
+  <div class="container">
+    <div class="section-hdr">
+      <div class="section-label">Part 6</div>
+      <h2>Buyer Profiles &amp; Pipeline BD Strategy</h2>
+      <p>Who we're working with now, what we're building, and where we're going. Click any card to expand.</p>
+    </div>
+
+    <div class="bd-card" onclick="toggleBD(this)">
+      <div class="bd-header">
+        <h3>🏥 RHS — Retirement Health Solutions</h3>
+        <div class="bd-header-right"><span class="badge badge-green">● Primary Focus</span><span class="bd-toggle">▼</span></div>
+      </div>
+      <div class="bd-body">
+        <p><strong>Current Status:</strong> Prepay model (10 calls/month each). Local Utah agency — primary volume driver. RHS agents are interested in our VA/Tricare calls that are currently being DQ'd — opportunity to route those instead of losing them.</p>
+        <p class="expand-note">Expansion: Scale enrollment volume, expand agent roster, add states as agents gain licensing.</p>
+      </div>
+    </div>
+
+    <div class="bd-card" onclick="toggleBD(this)">
+      <div class="bd-header">
+        <h3>🔗 BBI — EnrollHere</h3>
+        <div class="bd-header-right"><span class="badge badge-blue">● Established</span><span class="bd-toggle">▼</span></div>
+      </div>
+      <div class="bd-body">
+        <p><strong>Current Status:</strong> Established but growing slowly. SIP-connected, CPA model. Tracking calls ≥45 min as CPA proxy. Confirm enrollments in dashboard before invoicing.</p>
+        <p class="expand-note">Expansion: Maintain volume, leverage SEP opportunities, stack DST-SEP eligibility where applicable.</p>
+      </div>
+    </div>
+
+    <div class="bd-card" onclick="toggleBD(this)">
+      <div class="bd-header">
+        <h3>🤝 Affiliate Partners</h3>
+        <div class="bd-header-right"><span class="badge badge-blue">● Active</span><span class="bd-toggle">▼</span></div>
+      </div>
+      <div class="bd-body">
+        <p><strong>Current Status:</strong> Active partnerships across pipeline network. Current partners include Turtle Leads, CCI, and additional partners in the BD CRM. Pipeline has feelers out for more Med transfers — but the market is clearly signaling demand for inbound verified calls, not just transfers.</p>
+        <p><strong>BD Focus:</strong> Cullen is continuing to build relationships. With focus on Everlife, no new campaigns are launching currently. The path to becoming an elite Medicare marketing agency runs through organic product or a great inbound AI-verified call source we can scale. That’s the unlock.</p>
+        <p class="expand-note">Expansion: Align affiliates with active SEP windows. Ensure creatives and SMIDs are current. Expand reach as organic content builds.</p>
+      </div>
+    </div>
+
+    <div class="bd-card" onclick="toggleBD(this)">
+      <div class="bd-header">
+        <h3>📲 Inbound AI-Verified Calls</h3>
+        <div class="bd-header-right"><span class="badge badge-yellow">● Ready to Launch</span><span class="bd-toggle">▼</span></div>
+      </div>
+      <div class="bd-body">
+        <p><strong>Current Status:</strong> Infrastructure ready. Paragon Media and Healthy Labs confirmed for April 6. Providence and JuneArch in onboarding.</p>
+        <p class="expand-note">Expansion: Once metrics validate (CPT &lt;$30, CPA &lt;$250, 70%+ billable), we'll sell our own verified calls to partner networks at our pricing — with guaranteed, compliant sourcing. TERM and Final Expense to follow once MA is dialed in.</p>
+      </div>
+    </div>
+
+    <div class="alert-blue" style="margin-top:16px;margin-bottom:4px">
+      <div class="alert-lbl">🌐 Medicarians Conference — Coming Soon</div>
+      <p>Jay, Jordan, CJ, and Paul are attending Medicarians in the coming weeks to meet with partners and carriers, secure our own licensing, and establish FMO relationships. Once they return, Pipeline will be ready to pivot and support any partnerships or opportunities that come out of the conference. This is a key milestone for Everlife’s carrier and distribution strategy.</p>
+    </div>
+
+    <div class="divider" style="margin:20px 0"></div>
+    <h3 style="font-size:15px;font-weight:700;margin-bottom:14px">Where We're Going — The Big Picture</h3>
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon">📈</div>
+        <h3>Organic Leads = Market Access</h3>
+        <p>Building our own organic lead base locks us in with SelectQuote, Exact Medicare, and beyond. This is the long game.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔄</div>
+        <h3>Med Xfers + AI Calls as a Product</h3>
+        <p>Sell verified calls to partner networks at our pricing — guaranteed, compliant sourcing they can count on.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🏠</div>
+        <h3>Adjacent Verticals</h3>
+        <p>TERM and FE expansion when MA is dialed in. Roofing integration under consideration.</p>
+      </div>
+    </div>
+
+    <div class="alert-blue" style="margin-top:20px">
+      <div class="alert-lbl">📊 Weekly Alignment Requirement</div>
+      <p>Pipeline and Everlife review enrollment data weekly: Which SEPs are agents using? Are affiliate creatives aligned with what's converting? Where do we pivot? This is how we stay ahead of window closings.</p>
+    </div>
+
+    <div class="tbl-wrap" style="margin-top:20px">
+      <table>
+        <thead><tr><th>BD Focus Area</th><th>Status</th><th>Next Step</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Medicare MA Volume (Pipeline)</strong></td><td><span class="badge badge-green">● Active</span></td><td>Audit contracts; align on active SEP windows</td></tr>
+          <tr><td><strong>Inbound AI-Verified Calls</strong></td><td><span class="badge badge-yellow">● Launching Apr 6</span></td><td>Go-live Paragon + Healthy Labs; validate CPT/CPA/billable %</td></tr>
+          <tr><td><strong>Organic Lead Base</strong></td><td><span class="badge badge-blue">● Building</span></td><td>5 landing pages + 10 blog posts live by Apr 30</td></tr>
+          <tr><td><strong>Med Xfers + AI Call Sales</strong></td><td><span class="badge badge-gray">Planned</span></td><td>When metrics validated; build offering for partners</td></tr>
+          <tr><td><strong>TERM / Final Expense</strong></td><td><span class="badge badge-gray">Future</span></td><td>After MA dialed in; licensing and carrier agreements</td></tr>
+          <tr><td><strong>Roofing Integration</strong></td><td><span class="badge badge-gray">Evaluating</span></td><td>Adjacent vertical — under consideration</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ===== ACTION ITEMS ===== -->
+<div id="actions" class="panel">
+  <div class="container">
+    <div class="section-hdr">
+      <div class="section-label">Action Items</div>
+      <h2>What Needs to Happen Now</h2>
+      <p>Click items to check them off. Progress is saved in your browser.</p>
+    </div>
+
+    <div class="card" style="margin-bottom:16px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+        <h3>Overall Progress</h3>
+        <span id="progress-label" style="font-size:13px;color:#667eea;font-weight:700">0 / 12 complete</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+    </div>
+
+    <div class="card" style="margin-bottom:14px">
+      <h3 style="margin-bottom:4px;font-size:14px;color:#e53e3e">🚨 Urgent — This Week</h3>
+      <ul class="checklist" id="checklist">
+        <li onclick="toggleCheck(this)"><div class="chk-box"></div>Launch Alabama outreach — statewide, 61 days remaining</li>
+        <li onclick="toggleCheck(this)"><div class="chk-box"></div>Launch Louisiana outreach — 30 days remaining, push LIS + zero-premium</li>
+        <li onclick="toggleCheck(this)"><div class="chk-box"></div>Confirm Five9 routing with Mike Searle before April 6 go-live</li>
+        <li onclick="toggleCheck(this)"><div class="chk-box"></div>Finalize Paragon IO — 20 calls/day cap at $30/90s</li>
+        <li onclick="toggleCheck(this)"><div class="chk-box"></div>Brief all 31 inbound queue agents on DST-SEP + CRM documentation</li>
+      </ul>
+    </div>
+
+    <div class="card" style="margin-bottom:14px">
+      <h3 style="margin-bottom:4px;font-size:14px;color:#b7791f">⚡ This Month</h3>
+      <ul class="checklist">
+        <li onclick="toggleCheck(this)"><div class="chk-box"></div>Monitor PA/OH Wellcare approval daily — launch within 24 hours of approval</li>
+        <li onclick="toggleCheck(this)"><div class="chk-box"></div>Complete Providence compliance form + integration (Matt Nguyen)</li>
+        <li onclick="toggleCheck(this)"><div class="chk-box"></div>Complete JuneArch compliance form + set cap</li>
+        <li onclick="toggleCheck(this)"><div class="chk-box"></div>Publish AL + LA landing pages (organic)</li>
+        <li onclick="toggleCheck(this)"><div class="chk-box"></div>Cory adds SEP tag to Salesforce for agent enrollment tracking</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3 style="margin-bottom:4px;font-size:14px;color:#276749">📅 Tentative Late April / Early May Targets</h3>
+      <p style="font-size:12px;color:#718096;margin-bottom:10px">Target window: late April through end of May depending on content build pace.</p>
+      <ul class="checklist">
+        <li onclick="toggleCheck(this)"><div class="chk-box"></div>10+ blog posts live (T65/IEP primary focus)</li>
+        <li onclick="toggleCheck(this)"><div class="chk-box"></div>5 landing pages live with email capture</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <strong>Everlife Insurance + Pipeline Partners</strong> &nbsp;|&nbsp; Medicare ROY 2026 &nbsp;|&nbsp; Internal Use Only &nbsp;|&nbsp; Updated April 2, 2026
+</footer>
+
+<script>
+// Tab switching
+function switchTab(id, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+// SEP filter
+function filterSEP(filter, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('#sep-table tbody tr').forEach(row => {
+    const tier = row.dataset.tier;
+    const status = row.dataset.status;
+    if (filter === 'all') row.classList.remove('hidden-row');
+    else if (filter === 't1') row.classList.toggle('hidden-row', tier !== 't1');
+    else if (filter === 't2') row.classList.toggle('hidden-row', tier !== 't2');
+    else if (filter === 't3') row.classList.toggle('hidden-row', tier !== 't3');
+    else if (filter === 'active') row.classList.toggle('hidden-row', status !== 'active');
+  });
+}
+
+// BD card toggle
+function toggleBD(card) {
+  const body = card.querySelector('.bd-body');
+  const toggle = card.querySelector('.bd-toggle');
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  toggle.style.transform = isOpen ? '' : 'rotate(180deg)';
+}
+
+// Checklist with localStorage
+function toggleCheck(item) {
+  item.classList.toggle('done');
+  if (item.classList.contains('done')) item.querySelector('.chk-box').textContent = '✓';
+  else item.querySelector('.chk-box').textContent = '';
+  updateProgress();
+  saveChecklist();
+}
+
+function updateProgress() {
+  const all = document.querySelectorAll('.checklist li');
+  const done = document.querySelectorAll('.checklist li.done');
+  const pct = all.length ? (done.length / all.length * 100) : 0;
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-label').textContent = done.length + ' / ' + all.length + ' complete';
+}
+
+function saveChecklist() {
+  const states = [];
+  document.querySelectorAll('.checklist li').forEach((li, i) => states.push(li.classList.contains('done')));
+  try { localStorage.setItem('evl-roi-checklist', JSON.stringify(states)); } catch(e) {}
+}
+
+function loadChecklist() {
+  try {
+    const saved = JSON.parse(localStorage.getItem('evl-roi-checklist') || '[]');
+    document.querySelectorAll('.checklist li').forEach((li, i) => {
+      if (saved[i]) { li.classList.add('done'); li.querySelector('.chk-box').textContent = '✓'; }
+    });
+  } catch(e) {}
+  updateProgress();
+}
+
+loadChecklist();
+</script>
+</body>
+</html>
